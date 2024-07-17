@@ -1,7 +1,13 @@
+import Header from "./components/header/Header"
+
 function App() {
 	return (
 		<>
-			<h1>React JS</h1>
+			<div id="box">
+
+				<Header />
+
+			</div>
 		</>
 	)
 }
