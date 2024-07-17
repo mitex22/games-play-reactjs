@@ -1,4 +1,5 @@
 import Header from "./components/header/Header"
+import Home from "./components/home/Home"
 
 function App() {
 	return (
@@ -6,6 +7,8 @@ function App() {
 			<div id="box">
 
 				<Header />
+
+				<Home />
 
 			</div>
 		</>
