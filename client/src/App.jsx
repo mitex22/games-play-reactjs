@@ -14,6 +14,11 @@ function App() {
 
 				<Header />
 
+				{/* <!-- Main Content --> */}
+				<main id="main-content">
+					
+				</main>
+
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/games" element={<GameList />} />
