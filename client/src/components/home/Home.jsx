@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as gamesAPI from "../../api/games-api";
+
 import LatestGame from "./latest-game/LatestGame";
 
 const Home = () => {

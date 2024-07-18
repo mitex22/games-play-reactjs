@@ -17,8 +17,6 @@ function App() {
 
 				{/* <!-- Main Content --> */}
 				<main id="main-content">
-
-
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/games" element={<GameList />} />
@@ -28,7 +26,7 @@ function App() {
 						<Route path="/register" element={<Register />} />
 					</Routes>
 				</main>
-
+				
 			</div>
 		</>
 	)
