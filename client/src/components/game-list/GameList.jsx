@@ -7,8 +7,6 @@ const GameList = () => {
     const [games, setGames] = useState([]);
 
     useEffect(() => {
-        gamesAPI.getAll().then((games) => setGames(games));
-
         (async () => {
             const result = await gamesAPI.getAll();
 

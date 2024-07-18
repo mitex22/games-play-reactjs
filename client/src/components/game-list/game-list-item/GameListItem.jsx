@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom'
+
 const GameListItem = (
     {
         _id,
@@ -14,7 +16,7 @@ const GameListItem = (
                 <img src={imageUrl} />
                 <h6>{category}</h6>
                 <h2>{title}</h2>
-                <a href="#" className="details-button">Details</a>
+                <Link to={`/games/${_id}`} className="details-button">Details</Link>
             </div>
 
         </div>
