@@ -30,3 +30,9 @@ export const getLatest = async () => {
 
     return games;
 }
+
+export const gameCreate = async (gameData) => {
+    const result = await request.post(BASE_URL, gameData);
+    
+    return result;
+};
