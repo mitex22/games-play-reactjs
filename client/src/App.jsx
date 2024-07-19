@@ -1,5 +1,9 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate } from "react-router-dom"
 import { useState } from "react"
+
+import * as authAPI from "./api/auth-api"
+import AuthContext from "./contexts/authContext"
+import PATH from "./paths/paths"
 
 import Header from "./components/header/Header"
 import Home from "./components/home/Home"
@@ -10,32 +14,39 @@ import Register from "./components/register/Register"
 import GameDetails from "./components/game-details/GameDetails"
 
 function App() {
+	const navigate = useNavigate();
 
 	const [auth, setAuth] = useState({});
 
-	const loginSubmitHandler = (values) => {
-		console.log(values);
+	const loginSubmitHandler = async (values) => {
+		const result = await authAPI.login(values.email, values.password);
+
+		setAuth(result);
+
+		navigate(PATH.HOME);
 	}
 
 	return (
 		<>
-			<div id="box">
+			<AuthContext.Provider value={{ loginSubmitHandler }}>
+				<div id="box">
 
-				<Header />
+					<Header />
 
-				{/* <!-- Main Content --> */}
-				<main id="main-content">
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/games" element={<GameList />} />
-						<Route path="/games/create" element={<GameCreate />} />
-						<Route path="/games/:gameId" element={<GameDetails />} />
-						<Route path="/login" element={<Login loginSubmitHandler={loginSubmitHandler} />} />
-						<Route path="/register" element={<Register />} />
-					</Routes>
-				</main>
-				
-			</div>
+					{/* <!-- Main Content --> */}
+					<main id="main-content">
+						<Routes>
+							<Route path="/" element={<Home />} />
+							<Route path="/games" element={<GameList />} />
+							<Route path="/games/create" element={<GameCreate />} />
+							<Route path="/games/:gameId" element={<GameDetails />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/register" element={<Register />} />
+						</Routes>
+					</main>
+
+				</div>
+			</AuthContext.Provider>
 		</>
 	)
 }
