@@ -26,9 +26,18 @@ function App() {
 		navigate(PATH.HOME);
 	}
 
+	const values = {
+		loginSubmitHandler,
+		username: auth.username,
+		email: auth.email,
+		// double negation - if truthy value cast to TRUE
+		// double negation - if falsy value cast to FALSE
+		isAuthenticated: !!auth.username
+	};
+
 	return (
 		<>
-			<AuthContext.Provider value={{ loginSubmitHandler }}>
+			<AuthContext.Provider value={values}>
 				<div id="box">
 
 					<Header />
@@ -36,7 +45,7 @@ function App() {
 					{/* <!-- Main Content --> */}
 					<main id="main-content">
 						<Routes>
-							<Route path="/" element={<Home />} />
+							<Route path={PATH.HOME} element={<Home />} />
 							<Route path="/games" element={<GameList />} />
 							<Route path="/games/create" element={<GameCreate />} />
 							<Route path="/games/:gameId" element={<GameDetails />} />
