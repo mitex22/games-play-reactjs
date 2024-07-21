@@ -1,11 +1,16 @@
 import * as request from "./requester";
 
-const BASE_URL = 'http://localhost:3030/jsonstore/games';
+// const BASE_URL = 'http://localhost:3030/jsonstore/games';
+const BASE_URL = 'http://localhost:3030/data/games';
 
 export const getAll = async () => {
     const result = await request.get(BASE_URL);
     
-    const games = Object.values(result);
+    // 'http://localhost:3030/jsonstore/games'
+    // const games = Object.values(result);
+
+    // 'http://localhost:3030/data/games'
+    const games = result;
 
     return games;
 };
@@ -26,7 +31,11 @@ export const getLatest = async () => {
 
     const result = await request.get(BASE_URL);
     
-    const games = Object.values(result).reverse().slice(0, 3);
+    // 'http://localhost:3030/jsonstore/games'
+    // const games = Object.values(result).reverse().slice(0, 3);
+
+    // 'http://localhost:3030/data/games'
+    const games = result.reverse().slice(0, 3);
 
     return games;
 }
