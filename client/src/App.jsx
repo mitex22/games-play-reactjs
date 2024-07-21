@@ -27,17 +27,21 @@ function App() {
 	}
 
 	const registerSubmitHandler = async (values) => {
-		console.log(values);
+		const result = await authAPI.register(values.email, values.password);
+
+		setAuth(result);
+
+		navigate(PATH.HOME);
 	}
 
 	const values = {
 		loginSubmitHandler,
 		registerSubmitHandler,
-		username: auth.username,
+		username: auth.username || auth.email,
 		email: auth.email,
 		// double negation - if truthy value cast to TRUE
 		// double negation - if falsy value cast to FALSE
-		isAuthenticated: !!auth.username
+		isAuthenticated: !!auth.email,
 	};
 
 	return (
