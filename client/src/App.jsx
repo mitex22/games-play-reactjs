@@ -18,7 +18,7 @@ function App() {
 	const navigate = useNavigate();
 
 	const [auth, setAuth] = useState(() => {
-		const auth = localStorage.removeItem('accessToken');
+		localStorage.removeItem('accessToken');
 
 		return {};
 	});
