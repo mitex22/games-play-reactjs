@@ -26,8 +26,13 @@ function App() {
 		navigate(PATH.HOME);
 	}
 
+	const registerSubmitHandler = async (values) => {
+		console.log(values);
+	}
+
 	const values = {
 		loginSubmitHandler,
+		registerSubmitHandler,
 		username: auth.username,
 		email: auth.email,
 		// double negation - if truthy value cast to TRUE
