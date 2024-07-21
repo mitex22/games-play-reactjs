@@ -13,9 +13,28 @@ async function requester(method, url, data) {
         options.body = JSON.stringify(data);
     }
 
+    // local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken) {
+        options.headers = {
+            ...options.headers,
+            'X-Authorization': accessToken
+        }
+    }
+
     const response = await fetch(url, options);
 
+    if (response.status === 204) {
+        // return empty object due to server logout specifics
+        return {};
+    }
+
     const result = await response.json();
+
+    if (!response.ok) {
+        throw result;
+    }
 
     return result;
 }

@@ -13,3 +13,10 @@ export const register = async (email, password) => {
 
     return result;
 }
+
+export const logout = async () => {
+
+    const result = await request.get(`${BASE_URL}/logout`);
+
+    return result;
+}
