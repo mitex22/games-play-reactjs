@@ -1642,6 +1642,17 @@
     			_createdOn: 1616237272948,
     			_updatedOn: 1616237293676
     		}
+    	}, 
+        games: {
+    		"3987279d-0ad4-4afb-8ca9-5b256ae3b298": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+    			title: "Counter Strike",
+                category: "Shooter",
+    			imageUrl: "https://media.steampowered.com/apps/csgo/blog/images/fb_image.png?v=6",
+                maxLevel: "2",
+                summary: "Mnogo zaribqva!",
+    			_createdOn: 1613551279012
+    		},
     	}
     };
     var rules$1 = {
