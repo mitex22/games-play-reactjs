@@ -1,8 +1,6 @@
-import { Routes, Route, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { Routes, Route } from "react-router-dom"
 
-import * as authAPI from "./api/auth-api"
-import AuthContext from "./contexts/authContext"
+import { AuthProvider } from "./contexts/authContext"
 import PATH from "./paths/paths"
 
 import Header from "./components/header/Header"
@@ -15,56 +13,9 @@ import GameDetails from "./components/game-details/GameDetails"
 import Logout from "./components/logout/Logout"
 
 function App() {
-	const navigate = useNavigate();
-
-	const [auth, setAuth] = useState(() => {
-		localStorage.removeItem('accessToken');
-
-		return {};
-	});
-
-	const loginSubmitHandler = async (values) => {
-		const result = await authAPI.login(values.email, values.password);
-
-		setAuth(result);
-
-		localStorage.setItem('accessToken', result.accessToken);
-
-		navigate(PATH.HOME);
-	}
-
-	const registerSubmitHandler = async (values) => {
-		const result = await authAPI.register(values.email, values.password);
-
-		setAuth(result);
-
-		localStorage.setItem('accessToken', result.accessToken);
-
-		navigate(PATH.HOME);
-	}
-
-	const logoutHandler = () => {
-		setAuth({});
-
-		localStorage.removeItem('accessToken');
-
-		navigate(PATH.HOME);
-	}
-
-	const values = {
-		loginSubmitHandler,
-		registerSubmitHandler,
-		logoutHandler,
-		username: auth.username || auth.email,
-		email: auth.email,
-		// double negation - if truthy value cast to TRUE
-		// double negation - if falsy value cast to FALSE
-		isAuthenticated: !!auth.email,
-	};
-
 	return (
 		<>
-			<AuthContext.Provider value={values}>
+			<AuthProvider>
 				<div id="box">
 
 					<Header />
@@ -83,9 +34,9 @@ function App() {
 					</main>
 
 				</div>
-			</AuthContext.Provider>
+			</AuthProvider>
 		</>
 	)
 }
 
-export default App
+export default App;
