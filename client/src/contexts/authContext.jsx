@@ -56,6 +56,7 @@ export const AuthProvider = ({
         // double negation - if truthy value cast to TRUE
         // double negation - if falsy value cast to FALSE
         isAuthenticated: !!auth.email,
+        userId: auth._id
     };
 
     return (

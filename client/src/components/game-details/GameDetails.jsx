@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as gamesAPI from "../../api/games-api";
 import { useParams } from "react-router-dom";
+import AuthContext from "../../contexts/authContext";
 
 const GameDetails = () => {
+
+    const { userId } = useContext(AuthContext);
 
     const { gameId } = useParams('game');
 
@@ -15,6 +18,8 @@ const GameDetails = () => {
             setGame(result);
         })();
     }, []);
+
+    const isOwner = userId === game._ownerId;
 
     return (
         // <!--Details Page-->
@@ -48,10 +53,13 @@ const GameDetails = () => {
                 </div>
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
-                <div className="buttons">
-                    <a href="#" className="button">Edit</a>
-                    <a href="#" className="button">Delete</a>
-                </div>
+                {isOwner && (
+                    <div className="buttons">
+                        <a href="#" className="button">Edit</a>
+                        <a href="#" className="button">Delete</a>
+                    </div>
+                )}
+
             </div>
 
             {/* <!-- Bonus --> */}
