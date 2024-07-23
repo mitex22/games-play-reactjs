@@ -45,3 +45,11 @@ export const gameCreate = async (gameData) => {
     
     return result;
 };
+
+export const gameEdit = async (gameId, gameData) => {
+    const result = await request.put(`${BASE_URL}/${gameId}`, gameData);
+
+    return result;
+};
+
+export const gameDelete = async (gameId) => request.del(`${BASE_URL}/${gameId}`);

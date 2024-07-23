@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
 import * as gamesAPI from "../../api/games-api";
-import { useParams } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
+import { pathToUrl } from "../../utils/pathUtils";
+import PATH from "../../paths/paths";
 
 const GameDetails = () => {
+    const navigate = useNavigate();
 
     const { userId } = useContext(AuthContext);
 
@@ -20,6 +25,16 @@ const GameDetails = () => {
     }, []);
 
     const isOwner = userId === game._ownerId;
+
+    const deleteButtonClickHandler = async () => {
+        const hasConfirmed = confirm(`Are you sure you want to delete ${game.title}`);
+
+        if (hasConfirmed) {
+            await gamesAPI.gameDelete(gameId);
+
+            navigate('/games');
+        }
+    }
 
     return (
         // <!--Details Page-->
@@ -55,8 +70,8 @@ const GameDetails = () => {
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
                 {isOwner && (
                     <div className="buttons">
-                        <a href="#" className="button">Edit</a>
-                        <a href="#" className="button">Delete</a>
+                        <Link to={pathToUrl(PATH.GAME_EDIT, { gameId })} className="button">Edit</Link>
+                        <button className="button" onClick={deleteButtonClickHandler}>Delete</button>
                     </div>
                 )}
 
