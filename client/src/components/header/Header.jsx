@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../../contexts/authContext';
+import PATH from '../../paths/paths';
 
 const Header = () => {
 
@@ -12,15 +13,15 @@ const Header = () => {
     return (
         <header>
             {/* <!-- Navigation --> */}
-            <h1><Link className="home" to="/">GamesPlay</Link></h1>
+            <h1><Link className="home" to={PATH.HOME}>GamesPlay</Link></h1>
             <nav>
-                <Link to="/games">All games</Link>
+                <Link to={PATH.GAMES}>All games</Link>
 
                 {/* <!-- Logged-in users --> */}
                 {isAuthenticated && (
                     <div id="user">
-                        <Link to="/games/create">Create Game</Link>
-                        <Link to="/logout">Logout</Link>
+                        <Link to={PATH.GAME_CREATE}>Create Game</Link>
+                        <Link to={PATH.LOGOUT}>Logout</Link>
                         <span>| Welcome, {username}</span>
                     </div>
                 )}
@@ -28,8 +29,8 @@ const Header = () => {
                 {/* <!-- Guest users --> */}
                 {!isAuthenticated && (
                     <div id="guest">
-                        <Link to="/login">Login</Link>
-                        <Link to="/register">Register</Link>
+                        <Link to={PATH.LOGIN}>Login</Link>
+                        <Link to={PATH.REGISTER}>Register</Link>
                     </div>
                 )}
             </nav>
