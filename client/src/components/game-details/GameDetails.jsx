@@ -6,6 +6,7 @@ import * as gamesAPI from "../../api/games-api";
 import AuthContext from "../../contexts/authContext";
 import { pathToUrl } from "../../utils/pathUtils";
 import PATH from "../../paths/paths";
+import * as commentsAPI from "../../api/commnets-api";
 
 const GameDetails = () => {
     const navigate = useNavigate();
@@ -16,13 +17,26 @@ const GameDetails = () => {
 
     const [game, setGame] = useState({});
 
+    const [comments, setComments] = useState([]);
+
+    const [comment, setComment] = useState('');
+    const commentInputHandler = (e) => {
+        setComment(e.target.value);
+    }
+
     useEffect(() => {
         (async () => {
             const result = await gamesAPI.getOne(gameId);
 
             setGame(result);
         })();
-    }, []);
+
+        (async () => {
+            const result = await commentsAPI.getAll(gameId);
+
+            setComments(result);
+        })();
+    }, [gameId]);
 
     const isOwner = userId === game._ownerId;
 
@@ -34,6 +48,14 @@ const GameDetails = () => {
 
             navigate('/games');
         }
+    }
+
+    const commentSubmitHandler = async (e) => {
+        e.preventDefault();
+
+        const newComment = await commentsAPI.commentCreate(comment, gameId, userId);
+
+        setComments(state => [...state, newComment]);
     }
 
     return (
@@ -55,16 +77,16 @@ const GameDetails = () => {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {/* <!-- list all comments for current game (If any) --> */}
-                        <li className="comment">
-                            <p>Content: I rate this one quite highly.</p>
-                        </li>
-                        <li className="comment">
-                            <p>Content: The best game.</p>
-                        </li>
+                        {comments.map(({ _id, content }) => (
+                            <li key={_id} className="comment">
+                                <p>{content}</p>
+                            </li>
+                        ))}
                     </ul>
-                    {/* <!-- Display paragraph: If there are no games in the database --> */}
-                    <p className="no-comment">No comments.</p>
+
+                    {comments.length === 0 && (
+                        <p className="no-comment">No comments.</p>
+                    )}
                 </div>
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
@@ -81,8 +103,13 @@ const GameDetails = () => {
             {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
             <article className="create-comment">
                 <label>Add new comment:</label>
-                <form className="form">
-                    <textarea name="comment" placeholder="Comment......"></textarea>
+                <form className="form" onSubmit={commentSubmitHandler}>
+                    <textarea
+                        placeholder="Comment......"
+                        name="comment"
+                        onChange={commentInputHandler}
+                        value={comment}
+                    ></textarea>
                     <input className="btn submit" type="submit" value="Add Comment" />
                 </form>
             </article>
