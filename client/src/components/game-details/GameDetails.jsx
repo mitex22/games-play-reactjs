@@ -11,7 +11,7 @@ import * as commentsAPI from "../../api/commnets-api";
 const GameDetails = () => {
     const navigate = useNavigate();
 
-    const { userId } = useContext(AuthContext);
+    const { userId, username } = useContext(AuthContext);
 
     const { gameId } = useParams('game');
 
@@ -53,7 +53,7 @@ const GameDetails = () => {
     const commentSubmitHandler = async (e) => {
         e.preventDefault();
 
-        const newComment = await commentsAPI.commentCreate(comment, gameId);
+        const newComment = await commentsAPI.commentCreate(comment, gameId, username);
 
         setComments(state => [...state, newComment]);
     }
@@ -77,9 +77,9 @@ const GameDetails = () => {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {comments.map(({ _id, content }) => (
+                        {comments.map(({ _id, content, author }) => (
                             <li key={_id} className="comment">
-                                <p>{content}</p>
+                                <p>{author}: {content}</p>
                             </li>
                         ))}
                     </ul>

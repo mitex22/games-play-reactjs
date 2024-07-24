@@ -1342,6 +1342,7 @@
     	comments: {
     		"0a272c58-b7ea-4e09-a000-7ec988248f66": {
     			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+    			author: "Peter",
     			content: "Top igra ti kaaam!",
     			gameId: "3987279d-0ad4-4afb-8ca9-5b256ae3b298",
     			_createdOn: 1614260681375,
