@@ -4,6 +4,7 @@ import useForm from "../../hooks/useForm";
 
 const REGISTER_FORM_KEYS = {
     EMAIL: 'email',
+    USERNAME: 'username',
     PASSWORD: 'password',
     CONFIRM_PASSWORD: 'confirm-password'
 }
@@ -13,11 +14,10 @@ const Register = () => {
     const { registerSubmitHandler } = useContext(AuthContext);
     const { values, onChange, onSubmit } = useForm(registerSubmitHandler, {
         [REGISTER_FORM_KEYS.EMAIL]: '',
+        [REGISTER_FORM_KEYS.USERNAME]: '',
         [REGISTER_FORM_KEYS.PASSWORD]: '',
         [REGISTER_FORM_KEYS.CONFIRM_PASSWORD]: '',
     });
-
-
 
     return (
         // <!-- Register Page ( Only for Guest users ) -->
@@ -35,6 +35,16 @@ const Register = () => {
                         placeholder="maria@email.com"
                         onChange={onChange}
                         value={values[REGISTER_FORM_KEYS.EMAIL]}
+                    />
+
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="mimit0o0o0o"
+                        onChange={onChange}
+                        value={values[REGISTER_FORM_KEYS.USERNAME]}
                     />
 
                     <label htmlFor="pass">Password:</label>

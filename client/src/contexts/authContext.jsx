@@ -28,7 +28,7 @@ export const AuthProvider = ({
     }
 
     const registerSubmitHandler = async (values) => {
-        const result = await authAPI.register(values.email, values.password);
+        const result = await authAPI.register(values.email, values.username, values.password);
 
         setAuth(result);
 
