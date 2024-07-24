@@ -53,7 +53,7 @@ const GameDetails = () => {
     const commentSubmitHandler = async (e) => {
         e.preventDefault();
 
-        const newComment = await commentsAPI.commentCreate(comment, gameId, userId);
+        const newComment = await commentsAPI.commentCreate(comment, gameId);
 
         setComments(state => [...state, newComment]);
     }

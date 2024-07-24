@@ -12,8 +12,8 @@ export const getAll = async (gameId) => {
     return result;
 };
 
-export const commentCreate = async (content, gameId, userId) => {
-    const result = await request.post(BASE_URL, { content, gameId, userId });
+export const commentCreate = async (content, gameId) => {
+    const result = await request.post(BASE_URL, { content, gameId });
 
     return result;
 };
