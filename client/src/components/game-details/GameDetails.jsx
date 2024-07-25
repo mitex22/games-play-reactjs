@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import { pathToUrl } from "../../utils/pathUtils";
 import PATH from "../../paths/paths";
 import * as commentsAPI from "../../api/commnets-api";
 import { useGetOneGame } from "../../hooks/useGames";
+import { useGetAllComments } from "../../hooks/useComments";
 
 const GameDetails = () => {
     const navigate = useNavigate();
@@ -18,23 +19,13 @@ const GameDetails = () => {
 
     const [game] = useGetOneGame(gameId);
 
-    // TODO: comments as a hook
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useGetAllComments(gameId);
 
-    // TODO: comments as a hook
+    // TODO: implement with useForm hook
     const [comment, setComment] = useState('');
     const commentInputHandler = (e) => {
         setComment(e.target.value);
     }
-
-    // TODO: comments as a hook
-    useEffect(() => {
-        (async () => {
-            const result = await commentsAPI.getAll(gameId);
-
-            setComments(result);
-        })();
-    }, [gameId]);
 
     const isOwner = userId === game._ownerId;
 
