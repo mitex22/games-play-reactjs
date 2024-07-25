@@ -7,6 +7,7 @@ import AuthContext from "../../contexts/authContext";
 import { pathToUrl } from "../../utils/pathUtils";
 import PATH from "../../paths/paths";
 import * as commentsAPI from "../../api/commnets-api";
+import { useGetOneGame } from "../../hooks/useGames";
 
 const GameDetails = () => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const GameDetails = () => {
 
     const { gameId } = useParams('game');
 
-    const [game, setGame] = useState({});
+    const [game] = useGetOneGame(gameId);
 
     const [comments, setComments] = useState([]);
 
@@ -25,12 +26,6 @@ const GameDetails = () => {
     }
 
     useEffect(() => {
-        (async () => {
-            const result = await gamesAPI.getOne(gameId);
-
-            setGame(result);
-        })();
-
         (async () => {
             const result = await commentsAPI.getAll(gameId);
 
