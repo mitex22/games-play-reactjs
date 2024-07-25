@@ -8,7 +8,7 @@ const LOGIN_FORM_KEYS = {
 }
 
 const Login = () => {
-    const { loginSubmitHandler } = useContext(AuthContext)
+    const { loginSubmitHandler, loginError } = useContext(AuthContext)
 
     const { values, onChange, onSubmit} = useForm(loginSubmitHandler, { [LOGIN_FORM_KEYS.EMAIL]: '', [LOGIN_FORM_KEYS.PASSWORD]: '' });
 
@@ -44,6 +44,13 @@ const Login = () => {
                     <p className="field">
                         <span>If you don't have profile click <a href="#">here</a></span>
                     </p>
+
+                    {loginError && 
+                        <p>
+                            <span>{loginError}</span>
+                        </p>
+                    }
+                    
                 </div>
             </form>
         </section>

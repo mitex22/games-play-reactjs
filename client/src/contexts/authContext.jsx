@@ -1,4 +1,4 @@
-import { createContext } from "react"
+import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import * as authAPI from "../api/auth-api"
@@ -16,8 +16,13 @@ export const AuthProvider = ({
     const navigate = useNavigate();
 
     const [auth, setAuth] = usePersistedState('auth', {});
+    const [loginError, setLoginError] = useState('');
 
     const loginSubmitHandler = async (values) => {
+
+        if (values.password.length < 6) {
+            return setLoginError('Password must be at least 6 characters');
+        }
 
         try {
             const result = await authAPI.login(values.email, values.password);
@@ -27,8 +32,10 @@ export const AuthProvider = ({
             localStorage.setItem('accessToken', result.accessToken);
 
             navigate(PATH.HOME);
+
+            setLoginError('');
         } catch (error) {
-            console.log(error.message)
+            setLoginError(error.message);
         }
     }
 
@@ -70,6 +77,7 @@ export const AuthProvider = ({
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
+        loginError,
         username: auth.username || auth.email,
         email: auth.email,
         // double negation - if truthy value cast to TRUE
