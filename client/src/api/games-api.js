@@ -13,7 +13,7 @@ export const getAll = async () => {
 export const getOne = (gameId) => request.get(`${BASE_URL}/${gameId}`);
 
 export const getLatest = async () => {
-    const result = await request.get(`${BASE_URL}?sortBy=_createdOn%20desc&`);
+    const result = await request.get(`${BASE_URL}?sortBy=_createdOn%20desc&pageSize=3`);
     
     const games = result;
 
