@@ -18,13 +18,16 @@ const GameDetails = () => {
 
     const [game] = useGetOneGame(gameId);
 
+    // TODO: comments as a hook
     const [comments, setComments] = useState([]);
 
+    // TODO: comments as a hook
     const [comment, setComment] = useState('');
     const commentInputHandler = (e) => {
         setComment(e.target.value);
     }
 
+    // TODO: comments as a hook
     useEffect(() => {
         (async () => {
             const result = await commentsAPI.getAll(gameId);

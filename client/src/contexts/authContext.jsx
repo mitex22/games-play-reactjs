@@ -18,26 +18,45 @@ export const AuthProvider = ({
     const [auth, setAuth] = usePersistedState('auth', {});
 
     const loginSubmitHandler = async (values) => {
-        const result = await authAPI.login(values.email, values.password);
 
-        setAuth(result);
+        try {
+            const result = await authAPI.login(values.email, values.password);
 
-        localStorage.setItem('accessToken', result.accessToken);
+            setAuth(result);
 
-        navigate(PATH.HOME);
+            localStorage.setItem('accessToken', result.accessToken);
+
+            navigate(PATH.HOME);
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     const registerSubmitHandler = async (values) => {
-        const result = await authAPI.register(values.email, values.username, values.password);
 
-        setAuth(result);
+        // TODO: error handling
+        try {
+            const result = await authAPI.register(values.email, values.username, values.password);
 
-        localStorage.setItem('accessToken', result.accessToken);
+            setAuth(result);
 
-        navigate(PATH.HOME);
+            localStorage.setItem('accessToken', result.accessToken);
+
+            navigate(PATH.HOME);
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     const logoutHandler = () => {
+
+        // TODO: error handling
+        // try {
+
+        // } catch (error) {
+
+        // }
+
         setAuth({});
 
         localStorage.removeItem('accessToken');
