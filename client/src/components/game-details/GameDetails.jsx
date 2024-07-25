@@ -14,7 +14,7 @@ const GameDetails = () => {
 
     const { userId, username } = useContext(AuthContext);
 
-    const { gameId } = useParams('game');
+    const { gameId } = useParams();
 
     const [game] = useGetOneGame(gameId);
 
