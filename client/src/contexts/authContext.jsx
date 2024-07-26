@@ -17,13 +17,9 @@ export const AuthProvider = ({
 
     const [auth, setAuth] = usePersistedState('auth', {});
     const [loginError, setLoginError] = useState('');
+    const [registerError, setRegisterError] = useState('');
 
     const loginSubmitHandler = async (values) => {
-
-        if (values.password.length < 6) {
-            return setLoginError('Password must be at least 6 characters');
-        }
-
         try {
             const result = await authAPI.login(values.email, values.password);
 
@@ -50,8 +46,10 @@ export const AuthProvider = ({
             localStorage.setItem('accessToken', result.accessToken);
 
             navigate(PATH.HOME);
+
+            setRegisterError('');
         } catch (error) {
-            console.log(error.message)
+            setRegisterError(error.message);
         }
     }
 
@@ -78,6 +76,7 @@ export const AuthProvider = ({
         registerSubmitHandler,
         logoutHandler,
         loginError,
+        registerError,
         username: auth.username || auth.email,
         email: auth.email,
         // double negation - if truthy value cast to TRUE
