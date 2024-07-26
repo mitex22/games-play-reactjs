@@ -7,6 +7,7 @@ import AuthContext from "../../contexts/authContext";
 import { pathToUrl } from "../../utils/pathUtils";
 import PATH from "../../paths/paths";
 import * as commentsAPI from "../../api/commnets-api";
+import * as likesAPI from "../../api/likes-api";
 import { useGetOneGame } from "../../hooks/useGames";
 import { useGetAllComments } from "../../hooks/useComments";
 
@@ -59,6 +60,12 @@ const GameDetails = () => {
         }
     }
 
+    const likeCommentButtonClickHandler = async (commentId) => {
+        const newLike = await likesAPI.likeCreate(commentId, userId, username);
+
+        console.log(newLike)
+    }
+
     return (
         // <!--Details Page-->
         <section id="game-details">
@@ -82,7 +89,7 @@ const GameDetails = () => {
                             <li key={_id} className="comment">
                                 <p>{author}: {content}</p>
                                 {_ownerId === userId && <button className="button" onClick={() => deleteCommentButtonClickHandler(_id)}>Delete</button>}
-                                {_ownerId !== userId && isAuthenticated && <button className="button">Like</button>}
+                                {_ownerId !== userId && isAuthenticated && <button className="button" onClick={() => likeCommentButtonClickHandler(_id)}>Like</button>}
                             </li>
                         ))}
                     </ul>
