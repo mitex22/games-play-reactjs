@@ -1,6 +1,9 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
+
 import useForm from "../../hooks/useForm";
 import AuthContext from "../../contexts/authContext";
+import PATH from "../../paths/paths"
 
 const LOGIN_FORM_KEYS = {
     EMAIL: 'email',
@@ -42,7 +45,7 @@ const Login = () => {
                     <input type="submit" className="btn submit" value="Login" />
 
                     <p className="field">
-                        <span>If you don't have profile click <a href="#">here</a></span>
+                        <span>If you don't have profile click <Link to={PATH.REGISTER}>here</Link></span>
                     </p>
 
                     {loginError && 
