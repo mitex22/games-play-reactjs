@@ -20,6 +20,7 @@ export const AuthProvider = ({
     const [registerError, setRegisterError] = useState('');
 
     const loginSubmitHandler = async (values) => {
+        
         try {
             const result = await authAPI.login(values.email, values.password);
 
@@ -37,7 +38,6 @@ export const AuthProvider = ({
 
     const registerSubmitHandler = async (values) => {
 
-        // TODO: error handling
         try {
             const result = await authAPI.register(values.email, values.username, values.password);
 
@@ -54,13 +54,6 @@ export const AuthProvider = ({
     }
 
     const logoutHandler = () => {
-
-        // TODO: error handling
-        // try {
-
-        // } catch (error) {
-
-        // }
 
         setAuth({});
 
