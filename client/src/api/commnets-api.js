@@ -17,3 +17,5 @@ export const commentCreate = async (content, gameId, author) => {
 
     return result;
 };
+
+export const commentDelete = async (commentId) => request.del(`${BASE_URL}/${commentId}`);
