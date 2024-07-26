@@ -13,7 +13,7 @@ import { useGetAllComments } from "../../hooks/useComments";
 const GameDetails = () => {
     const navigate = useNavigate();
 
-    const { userId, username } = useContext(AuthContext);
+    const { userId, username, isAuthenticated } = useContext(AuthContext);
 
     const { gameId } = useParams();
 
@@ -27,10 +27,10 @@ const GameDetails = () => {
         setComment(e.target.value);
     }
 
-    const isOwner = userId === game._ownerId;
+    const isGameOwner = userId === game._ownerId;
 
-    const deleteButtonClickHandler = async () => {
-        const hasConfirmed = confirm(`Are you sure you want to delete ${game.title}`);
+    const deleteGameButtonClickHandler = async () => {
+        const hasConfirmed = confirm(`Are you sure you want to delete ${game.title}?`);
 
         if (hasConfirmed) {
             await gamesAPI.gameDelete(gameId);
@@ -45,6 +45,18 @@ const GameDetails = () => {
         const newComment = await commentsAPI.commentCreate(comment, gameId, username);
 
         setComments(state => [...state, newComment]);
+
+        setComment('');
+    }
+
+    const deleteCommentButtonClickHandler = async (commentId) => {
+        const hasConfirmed = confirm(`Are you sure you want to delete this comment?`);
+
+        if (hasConfirmed) {
+            await commentsAPI.commentDelete(commentId);
+
+            setComments(state => [...state].filter((comment) => (comment._id !== commentId)));
+        }
     }
 
     return (
@@ -66,9 +78,11 @@ const GameDetails = () => {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {comments.map(({ _id, content, author }) => (
+                        {comments.map(({ _id, content, author, _ownerId }) => (
                             <li key={_id} className="comment">
                                 <p>{author}: {content}</p>
+                                {_ownerId === userId && <button className="button" onClick={() => deleteCommentButtonClickHandler(_id)}>Delete</button>}
+                                {_ownerId !== userId && isAuthenticated && <button className="button">Like</button>}
                             </li>
                         ))}
                     </ul>
@@ -79,10 +93,10 @@ const GameDetails = () => {
                 </div>
 
                 {/* <!-- Edit/Delete buttons ( Only for creator of this game )  --> */}
-                {isOwner && (
+                {isGameOwner && (
                     <div className="buttons">
                         <Link to={pathToUrl(PATH.GAME_EDIT, { gameId })} className="button">Edit</Link>
-                        <button className="button" onClick={deleteButtonClickHandler}>Delete</button>
+                        <button className="button" onClick={deleteGameButtonClickHandler}>Delete</button>
                     </div>
                 )}
 
