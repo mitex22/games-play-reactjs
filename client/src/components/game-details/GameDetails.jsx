@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
 
@@ -10,6 +10,11 @@ import * as commentsAPI from "../../api/commnets-api";
 import * as likesAPI from "../../api/likes-api";
 import { useGetOneGame } from "../../hooks/useGames";
 import { useGetAllComments } from "../../hooks/useComments";
+import useForm from "../../hooks/useForm";
+
+const CREATE_COMMENT_FORM_KEYS = {
+    COMMENT: 'comment',
+}
 
 const GameDetails = () => {
     const navigate = useNavigate();
@@ -20,13 +25,17 @@ const GameDetails = () => {
 
     const [game] = useGetOneGame(gameId);
 
-    const [comments, setComments] = useGetAllComments(gameId);
+    const [comments, dispatch] = useGetAllComments(gameId);
 
-    // TODO: implement with useForm hook
-    const [comment, setComment] = useState('');
-    const commentInputHandler = (e) => {
-        setComment(e.target.value);
+    const commentSubmitHandler = async (values) => {
+        const newComment = await commentsAPI.commentCreate({ ...values, gameId });
+
+        dispatch({ type: 'ADD_COMMENT', payload: { ...newComment, author: { username } } })
     }
+
+    const { values, onChange, onSubmit } = useForm(commentSubmitHandler, {
+        [CREATE_COMMENT_FORM_KEYS.COMMENT]: '',
+    });
 
     const isGameOwner = userId === game._ownerId;
 
@@ -40,23 +49,13 @@ const GameDetails = () => {
         }
     }
 
-    const commentSubmitHandler = async (e) => {
-        e.preventDefault();
-
-        const newComment = await commentsAPI.commentCreate(comment, gameId, username);
-
-        setComments(state => [...state, newComment]);
-
-        setComment('');
-    }
-
     const deleteCommentButtonClickHandler = async (commentId) => {
         const hasConfirmed = confirm(`Are you sure you want to delete this comment?`);
 
         if (hasConfirmed) {
             await commentsAPI.commentDelete(commentId);
 
-            setComments(state => [...state].filter((comment) => (comment._id !== commentId)));
+            dispatch({ type: 'DELETE_COMMENT', payload: commentId });
         }
     }
 
@@ -85,9 +84,9 @@ const GameDetails = () => {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {comments.map(({ _id, content, author, _ownerId }) => (
+                        {comments.map(({ _id, comment, author, _ownerId }) => (
                             <li key={_id} className="comment">
-                                <p>{author}: {content}</p>
+                                <p>{author.username}: {comment}</p>
                                 {_ownerId === userId && <button className="button" onClick={() => deleteCommentButtonClickHandler(_id)}>Delete</button>}
                                 {_ownerId !== userId && isAuthenticated && <button className="button" onClick={() => likeCommentButtonClickHandler(_id)}>Like</button>}
                             </li>
@@ -114,12 +113,12 @@ const GameDetails = () => {
             {isAuthenticated && (
                 <article className="create-comment">
                     <label>Add new comment:</label>
-                    <form className="form" onSubmit={commentSubmitHandler}>
+                    <form className="form" onSubmit={onSubmit}>
                         <textarea
                             placeholder="Comment......"
                             name="comment"
-                            onChange={commentInputHandler}
-                            value={comment}
+                            onChange={onChange}
+                            value={values[CREATE_COMMENT_FORM_KEYS.COMMENT]}
                         ></textarea>
                         <input className="btn submit" type="submit" value="Add Comment" />
                     </form>

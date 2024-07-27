@@ -4,7 +4,8 @@ const BASE_URL = 'http://localhost:3030/data/comments';
 
 export const getAll = async (gameId) => {
     const query = new URLSearchParams({
-        where: `gameId="${gameId}"`
+        where: `gameId="${gameId}"`,
+        load: `author=_ownerId:users`
     });
 
     const result = await request.get(`${BASE_URL}?${query}`);
@@ -12,8 +13,9 @@ export const getAll = async (gameId) => {
     return result;
 };
 
-export const commentCreate = async (content, gameId, author) => {
-    const result = await request.post(BASE_URL, { content, gameId, author });
+export const commentCreate = async (commentData) => {
+
+    const result = await request.post(BASE_URL, commentData);
 
     return result;
 };
