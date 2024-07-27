@@ -111,7 +111,7 @@ const GameDetails = () => {
 
             {/* <!-- Bonus --> */}
             {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-            {userId && (
+            {isAuthenticated && (
                 <article className="create-comment">
                     <label>Add new comment:</label>
                     <form className="form" onSubmit={commentSubmitHandler}>
