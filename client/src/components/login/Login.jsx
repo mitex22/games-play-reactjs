@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import useForm from "../../hooks/useForm";
@@ -15,6 +15,12 @@ const Login = () => {
 
     const { values, onChange, onSubmit} = useForm(loginSubmitHandler, { [LOGIN_FORM_KEYS.EMAIL]: '', [LOGIN_FORM_KEYS.PASSWORD]: '' });
 
+    const inputRef = useRef();
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
+
     return (
         // <!-- Login Page ( Only for Guest users ) -->
         <section id="login-page" className="auth">
@@ -25,6 +31,7 @@ const Login = () => {
                     <h1>Login</h1>
                     <label htmlFor="email">Email:</label>
                     <input 
+                        ref={inputRef}
                         type="email" 
                         id="email" 
                         name={LOGIN_FORM_KEYS.EMAIL} 

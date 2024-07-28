@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
@@ -23,6 +23,12 @@ const Register = () => {
         [REGISTER_FORM_KEYS.CONFIRM_PASSWORD]: '',
     });
 
+    const inputRef = useRef();
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
+
     return (
         // <!-- Register Page ( Only for Guest users ) -->
         <section id="register-page" className="content auth">
@@ -33,6 +39,7 @@ const Register = () => {
 
                     <label htmlFor="email">Email:</label>
                     <input
+                        ref={inputRef}
                         type="email"
                         id="email"
                         name="email"
