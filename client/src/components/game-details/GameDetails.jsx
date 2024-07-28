@@ -2,15 +2,16 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
 
-import * as gamesAPI from "../../api/games-api";
-import AuthContext from "../../contexts/authContext";
-import { pathToUrl } from "../../utils/pathUtils";
-import PATH from "../../paths/paths";
-import * as commentsAPI from "../../api/commnets-api";
-import * as likesAPI from "../../api/likes-api";
 import { useGetOneGame } from "../../hooks/useGames";
 import { useGetAllComments } from "../../hooks/useComments";
 import useForm from "../../hooks/useForm";
+
+import AuthContext from "../../contexts/authContext";
+import * as gamesAPI from "../../api/games-api";
+import * as commentsAPI from "../../api/commnets-api";
+import * as likesAPI from "../../api/likes-api";
+import { pathToUrl } from "../../utils/pathUtils";
+import PATH from "../../paths/paths";
 
 const CREATE_COMMENT_FORM_KEYS = {
     COMMENT: 'comment',
@@ -27,16 +28,6 @@ const GameDetails = () => {
 
     const [comments, dispatch] = useGetAllComments(gameId);
 
-    const commentSubmitHandler = async (values) => {
-        const newComment = await commentsAPI.commentCreate({ ...values, gameId });
-
-        dispatch({ type: 'ADD_COMMENT', payload: { ...newComment, author: { username } } })
-    }
-
-    const { values, onChange, onSubmit } = useForm(commentSubmitHandler, {
-        [CREATE_COMMENT_FORM_KEYS.COMMENT]: '',
-    });
-
     const isGameOwner = userId === game._ownerId;
 
     const deleteGameButtonClickHandler = async () => {
@@ -48,6 +39,16 @@ const GameDetails = () => {
             navigate('/games');
         }
     }
+
+    const commentSubmitHandler = async (values) => {
+        const newComment = await commentsAPI.commentCreate({ ...values, gameId });
+
+        dispatch({ type: 'ADD_COMMENT', payload: { ...newComment, author: { username } } })
+    }
+
+    const { values, onChange, onSubmit } = useForm(commentSubmitHandler, {
+        [CREATE_COMMENT_FORM_KEYS.COMMENT]: '',
+    });
 
     const deleteCommentButtonClickHandler = async (commentId) => {
         const hasConfirmed = confirm(`Are you sure you want to delete this comment?`);
