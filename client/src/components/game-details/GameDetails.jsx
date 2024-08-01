@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
 
@@ -30,6 +30,8 @@ const GameDetails = () => {
 
     const isGameOwner = userId === game._ownerId;
 
+    const [error, setError] = useState('');
+
     const deleteGameButtonClickHandler = async () => {
         const hasConfirmed = confirm(`Are you sure you want to delete ${game.title}?`);
 
@@ -41,9 +43,16 @@ const GameDetails = () => {
     }
 
     const commentSubmitHandler = async (values) => {
+
+        if (values.comment.trim() === '') {
+            return setError('Cannot submit empty comment!');
+        }
+
         const newComment = await commentsAPI.commentCreate({ ...values, gameId });
 
         dispatch({ type: 'ADD_COMMENT', payload: { ...newComment, author: { username } } });
+
+        setError('');
 
         values.comment = '';
     }
@@ -123,6 +132,13 @@ const GameDetails = () => {
                             onChange={onChange}
                             value={values[CREATE_COMMENT_FORM_KEYS.COMMENT]}
                         ></textarea>
+
+                        {error &&
+                            <p>
+                                <span>{error}</span>
+                            </p>
+                        }
+
                         <input className="btn submit" type="submit" value="Add Comment" />
                     </form>
                 </article>
