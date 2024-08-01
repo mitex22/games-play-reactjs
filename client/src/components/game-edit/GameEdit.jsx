@@ -3,6 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import * as gamesAPI from "../../api/games-api";
 
+const EDIT_GAME_FORM_KEYS = {
+    TITLE: 'title',
+    CATEGORY: 'category',
+    MAX_LEVEL: 'maxLevel',
+    IMAGE_URL: 'imageUrl',
+    SUMMARY: 'summary',
+}
+
 const GameEdit = () => {
 
     const navigate = useNavigate();
@@ -15,6 +23,8 @@ const GameEdit = () => {
         summary: '',
     });
 
+    const [error, setError] = useState('');
+
     useEffect(() => {
         gamesAPI.getOne(gameId)
             .then(result => {
@@ -26,6 +36,27 @@ const GameEdit = () => {
         e.preventDefault();
 
         const values = Object.fromEntries(new FormData(e.currentTarget));
+
+        // TODO: Edit Game Form validation
+        if (values[EDIT_GAME_FORM_KEYS.TITLE] === '') {
+            return setError('Title is missing!');
+        }
+        
+        if (values[EDIT_GAME_FORM_KEYS.CATEGORY] === '') {
+            return setError('Category is missing!');
+        }
+
+        if (values[EDIT_GAME_FORM_KEYS.MAX_LEVEL] === '') {
+            return setError('MaxLevel is missing!');
+        }
+
+        if (values[EDIT_GAME_FORM_KEYS.IMAGE_URL] === '') {
+            return setError('Image is missing!');
+        }
+
+        if (values[EDIT_GAME_FORM_KEYS.SUMMARY] === '') {
+            return setError('Summary is missing!');
+        }
 
         try {
             await gamesAPI.gameEdit(gameId, values);
@@ -66,6 +97,13 @@ const GameEdit = () => {
 
                     <label htmlFor="summary">Summary:</label>
                     <textarea name="summary" value={game.summary} onChange={onChange} id="summary"></textarea>
+
+                    {error && 
+                        <p>
+                            <span>{error}</span>
+                        </p>
+                    }
+
                     <input className="btn submit" type="submit" value="Edit Game" />
 
                 </div>
