@@ -11,7 +11,16 @@ const LOGIN_FORM_KEYS = {
 }
 
 const Login = () => {
-    const { loginSubmitHandler, loginError } = useContext(AuthContext)
+    const { loginSubmitHandler, error, setError } = useContext(AuthContext);
+
+    // cleanup 
+    useEffect(() => {
+        
+        return () => {
+            setError('');
+        }
+
+    }, []);
 
     const { values, onChange, onSubmit} = useForm(loginSubmitHandler, { [LOGIN_FORM_KEYS.EMAIL]: '', [LOGIN_FORM_KEYS.PASSWORD]: '' });
 
@@ -55,9 +64,9 @@ const Login = () => {
                         <span>If you don't have profile click <Link to={PATH.REGISTER}>here</Link></span>
                     </p>
 
-                    {loginError && 
+                    {error && 
                         <p>
-                            <span>{loginError}</span>
+                            <span>{error}</span>
                         </p>
                     }
                     

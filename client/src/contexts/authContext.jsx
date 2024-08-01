@@ -16,11 +16,11 @@ export const AuthProvider = ({
     const navigate = useNavigate();
 
     const [auth, setAuth] = usePersistedState('auth', {});
-    const [loginError, setLoginError] = useState('');
-    const [registerError, setRegisterError] = useState('');
+
+    const [error, setError] = useState('');
 
     const loginSubmitHandler = async (values) => {
-        
+
         try {
             const result = await authAPI.login(values.email, values.password);
 
@@ -30,13 +30,23 @@ export const AuthProvider = ({
 
             navigate(PATH.HOME);
 
-            setLoginError('');
+            setError('');
         } catch (error) {
-            setLoginError(error.message);
+            setError(error.message);
         }
     }
 
     const registerSubmitHandler = async (values) => {
+
+        if (values.password.length < 6) {
+            setError('Password must be at least 6 characters!');
+            return;
+        }
+
+        if (values.password !== values['confirm-password']) {
+            setError('Password and Confirm Password must match!');
+            return;
+        }
 
         try {
             const result = await authAPI.register(values.email, values.username, values.password);
@@ -47,9 +57,9 @@ export const AuthProvider = ({
 
             navigate(PATH.HOME);
 
-            setRegisterError('');
+            setError('');
         } catch (error) {
-            setRegisterError(error.message);
+            setError(error.message);
         }
     }
 
@@ -68,8 +78,8 @@ export const AuthProvider = ({
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
-        loginError,
-        registerError,
+        error,
+        setError,
         username: auth.username || auth.email,
         email: auth.email,
         // double negation - if truthy value cast to TRUE

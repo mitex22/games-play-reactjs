@@ -43,7 +43,9 @@ const GameDetails = () => {
     const commentSubmitHandler = async (values) => {
         const newComment = await commentsAPI.commentCreate({ ...values, gameId });
 
-        dispatch({ type: 'ADD_COMMENT', payload: { ...newComment, author: { username } } })
+        dispatch({ type: 'ADD_COMMENT', payload: { ...newComment, author: { username } } });
+
+        values.comment = '';
     }
 
     const { values, onChange, onSubmit } = useForm(commentSubmitHandler, {

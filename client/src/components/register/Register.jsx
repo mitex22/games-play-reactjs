@@ -14,7 +14,16 @@ const REGISTER_FORM_KEYS = {
 
 const Register = () => {
 
-    const { registerSubmitHandler, registerError } = useContext(AuthContext);
+    const { registerSubmitHandler, error, setError } = useContext(AuthContext);
+
+    // cleanup 
+    useEffect(() => {
+        
+        return () => {
+            setError('');
+        }
+
+    }, []);
 
     const { values, onChange, onSubmit } = useForm(registerSubmitHandler, {
         [REGISTER_FORM_KEYS.EMAIL]: '',
@@ -82,9 +91,9 @@ const Register = () => {
                         <span>If you already have profile click <Link to={PATH.LOGIN}>here</Link></span>
                     </p>
 
-                    {registerError && 
+                    {error && 
                         <p>
-                            <span>{registerError}</span>
+                            <span>{error}</span>
                         </p>
                     }
                 </div>
