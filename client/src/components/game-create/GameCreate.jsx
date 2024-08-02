@@ -1,6 +1,7 @@
 import * as gamesAPI from "../../api/games-api";
 import { useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
+import { useState } from "react";
 
 const CREATE_GAME_FORM_KEYS = {
     TITLE: 'title',
@@ -12,13 +13,31 @@ const CREATE_GAME_FORM_KEYS = {
 
 const GameCreate = () => {
     const navigate = useNavigate();
+
+    const [error, setError] = useState('');
     
     const submitFormHandler = async (values) => {
 
         // TODO: Create Game Form validation
-        // if (values[CREATE_GAME_FORM_KEYS.TITLE] === '') {
-        //     return console.log(values[CREATE_GAME_FORM_KEYS.TITLE], 'missing bro');
-        // }
+        if (values[CREATE_GAME_FORM_KEYS.TITLE] === '') {
+            return setError('Title is missing!');
+        }
+        
+        if (values[CREATE_GAME_FORM_KEYS.CATEGORY] === '') {
+            return setError('Category is missing!');
+        }
+
+        if (values[CREATE_GAME_FORM_KEYS.MAX_LEVEL] === '') {
+            return setError('MaxLevel is missing!');
+        }
+
+        if (values[CREATE_GAME_FORM_KEYS.IMAGE_URL] === '') {
+            return setError('Image is missing!');
+        }
+
+        if (values[CREATE_GAME_FORM_KEYS.SUMMARY] === '') {
+            return setError('Summary is missing!');
+        }
 
         try {
             await gamesAPI.gameCreate(values);
@@ -93,6 +112,12 @@ const GameCreate = () => {
                         value={values[CREATE_GAME_FORM_KEYS.SUMMARY]}
                     >
                     </textarea>
+
+                    {error && 
+                        <p>
+                            <span>{error}</span>
+                        </p>
+                    }
                     
                     <input className="btn submit" type="submit" value="Create Game" />
                 </div>
