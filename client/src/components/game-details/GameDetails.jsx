@@ -9,9 +9,10 @@ import useForm from "../../hooks/useForm";
 import AuthContext from "../../contexts/authContext";
 import * as gamesAPI from "../../api/games-api";
 import * as commentsAPI from "../../api/commnets-api";
-import * as likesAPI from "../../api/likes-api";
+
 import { pathToUrl } from "../../utils/pathUtils";
 import PATH from "../../paths/paths";
+import Comment from "../comment/Comment";
 
 const CREATE_COMMENT_FORM_KEYS = {
     COMMENT: 'comment',
@@ -61,20 +62,10 @@ const GameDetails = () => {
         [CREATE_COMMENT_FORM_KEYS.COMMENT]: '',
     });
 
-    const deleteCommentButtonClickHandler = async (commentId) => {
-        const hasConfirmed = confirm(`Are you sure you want to delete this comment?`);
+    const delteCommentHandler = async (commentId) => {
+        await commentsAPI.commentDelete(commentId);
 
-        if (hasConfirmed) {
-            await commentsAPI.commentDelete(commentId);
-
-            dispatch({ type: 'DELETE_COMMENT', payload: commentId });
-        }
-    }
-
-    const likeCommentButtonClickHandler = async (commentId) => {
-        const newLike = await likesAPI.likeCreate(commentId, userId, username);
-
-        console.log(newLike)
+        dispatch({ type: 'DELETE_COMMENT', payload: commentId });
     }
 
     return (
@@ -96,12 +87,14 @@ const GameDetails = () => {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {comments.map(({ _id, comment, author, _ownerId }) => (
-                            <li key={_id} className="comment">
-                                <p>{author.username}: {comment}</p>
-                                {_ownerId === userId && <button className="button" onClick={() => deleteCommentButtonClickHandler(_id)}>Delete</button>}
-                                {_ownerId !== userId && isAuthenticated && <button className="button" onClick={() => likeCommentButtonClickHandler(_id)}>Like</button>}
-                            </li>
+                        {comments.map((comment) => (
+                            <Comment
+                                {...comment}
+                                userId={userId}
+                                isAuthenticated={isAuthenticated}
+                                gameId={gameId}
+                                delteCommentHandler={delteCommentHandler}
+                            />
                         ))}
                     </ul>
 
