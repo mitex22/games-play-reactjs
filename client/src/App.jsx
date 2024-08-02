@@ -12,6 +12,7 @@ import GameCreate from "./components/game-create/GameCreate"
 import GameDetails from "./components/game-details/GameDetails"
 import GameEdit from "./components/game-edit/GameEdit"
 import Logout from "./components/logout/Logout"
+import RouteGuard from "./components/common/RouteGuard"
 
 function App() {
 	return (
@@ -28,10 +29,12 @@ function App() {
 							<Route path={PATH.REGISTER} element={<Register />} />
 							<Route path={PATH.LOGIN} element={<Login />} />
 							<Route path={PATH.GAMES} element={<GameList />} />
-							<Route path={PATH.GAME_CREATE} element={<GameCreate />} />
 							<Route path={PATH.GAME_DETAILS} element={<GameDetails />} />
-							<Route path={PATH.GAME_EDIT} element={<GameEdit />} />
-							<Route path={PATH.LOGOUT} element={<Logout />} />
+							<Route element={<RouteGuard />}>
+								<Route path={PATH.GAME_CREATE} element={<GameCreate />} />
+								<Route path={PATH.GAME_EDIT} element={<GameEdit />} />
+								<Route path={PATH.LOGOUT} element={<Logout />} />
+							</Route>
 						</Routes>
 					</main>
 
