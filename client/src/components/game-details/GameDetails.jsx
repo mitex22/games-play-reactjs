@@ -89,6 +89,7 @@ const GameDetails = () => {
                     <ul>
                         {comments.map((comment) => (
                             <Comment
+                                key={comment._id}
                                 {...comment}
                                 userId={userId}
                                 isAuthenticated={isAuthenticated}

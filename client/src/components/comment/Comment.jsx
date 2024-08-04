@@ -32,7 +32,7 @@ const Comment = ({
     }
 
     return (
-        <li key={_id} className="comment">
+        <li className="comment">
             <p>{author.username}: {comment}</p>
             {_ownerId === userId && <button className="button" onClick={() => deleteCommentButtonClickHandler(_id)}>Delete</button>}
             {_ownerId !== userId && isAuthenticated && <button className="button" onClick={() => likeCommentButtonClickHandler(_id)}>Like</button>}
