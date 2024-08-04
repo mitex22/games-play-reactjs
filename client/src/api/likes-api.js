@@ -17,3 +17,5 @@ export const likeCreate = async (commentId, _ownerId, _ownerUsername) => {
 
     return result;
 };
+
+export const likeRemove = async (likeItemId) => request.del(`${BASE_URL}/${likeItemId}`);
