@@ -1,6 +1,7 @@
 const PATH = {
     HOME: '/',
     GAMES: '/games',
+    GAME_PORTFOLIO: '/games/portfolio',
     GAME_CREATE: '/games/create',
     GAME_DETAILS: '/games/:gameId',
     GAME_EDIT: '/games/:gameId/edit',

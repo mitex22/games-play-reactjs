@@ -21,6 +21,7 @@ const Header = () => {
                 {isAuthenticated && (
                     <div id="user">
                         <Link to={PATH.GAME_CREATE}>Create Game</Link>
+                        <Link to={PATH.GAME_PORTFOLIO}>My Portfolio</Link>
                         <Link to={PATH.LOGOUT}>Logout</Link>
                         <span>| Welcome, {username}</span>
                     </div>

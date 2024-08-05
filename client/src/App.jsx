@@ -8,6 +8,7 @@ import Home from "./components/home/Home"
 import Register from "./components/register/Register"
 import Login from "./components/login/Login"
 import GameList from "./components/game-list/GameList"
+import GamePortfolio from "./components/game-list/game-portfolio/GamePortfolio"
 import GameCreate from "./components/game-create/GameCreate"
 import GameDetails from "./components/game-details/GameDetails"
 import GameEdit from "./components/game-edit/GameEdit"
@@ -31,6 +32,7 @@ function App() {
 							<Route path={PATH.GAMES} element={<GameList />} />
 							<Route path={PATH.GAME_DETAILS} element={<GameDetails />} />
 							<Route element={<RouteGuard />}>
+								<Route path={PATH.GAME_PORTFOLIO} element={<GamePortfolio />} />
 								<Route path={PATH.GAME_CREATE} element={<GameCreate />} />
 								<Route path={PATH.GAME_EDIT} element={<GameEdit />} />
 								<Route path={PATH.LOGOUT} element={<Logout />} />
