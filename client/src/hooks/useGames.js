@@ -29,3 +29,17 @@ export function useGetOneGame(gameId) {
 
     return [game, setGame]
 }
+
+export function useGetPortfolioGames(username) {
+    const [games, setGames] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const result = await gamesAPI.getPortfolio(username);
+
+            setGames(result);
+        })();
+    }, [username]);
+
+    return [games, setGames]
+}

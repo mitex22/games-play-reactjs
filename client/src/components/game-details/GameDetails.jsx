@@ -43,6 +43,16 @@ const GameDetails = () => {
         }
     }
 
+    const buyGameButtonClickHandler = async () => {
+        const hasConfirmed = confirm(`Are you sure you want to buy ${game.title}?`);
+
+        if (hasConfirmed) {
+            await gamesAPI.gameBuy(gameId, userId, username);
+
+            navigate('/games/portfolio');
+        }
+    }
+
     const commentSubmitHandler = async (values) => {
 
         if (values.comment.trim() === '') {
@@ -82,6 +92,8 @@ const GameDetails = () => {
                 </div>
 
                 <p className="text">{game.summary}</p>
+
+                {isAuthenticated && <button className="button" onClick={buyGameButtonClickHandler}>Buy Game</button>}
 
                 {/* <!-- Bonus ( for Guests and Users ) --> */}
                 <div className="details-comments">

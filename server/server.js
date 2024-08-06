@@ -1365,6 +1365,14 @@
                 summary: "Mnogo zaribqva!",
     			_createdOn: 1613551279012
     		},
+    	},
+        portfolio: {
+    		"0a272c58-b7ea-4e09-a000-7ec98sd48f21": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+    			_ownerUsername: "Peter",
+    			gameId: "3987279d-0ad4-4afb-8ca9-5b256ae3b298",
+    			_createdOn: 1614260681376,
+    		}
     	}
     };
     var rules$1 = {
