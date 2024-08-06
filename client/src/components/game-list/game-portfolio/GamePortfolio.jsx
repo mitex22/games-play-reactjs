@@ -1,13 +1,20 @@
 import { useContext } from 'react';
 import { useGetPortfolioGames } from '../../../hooks/useGames';
-import GameListItem from '../game-list-item/GameListItem';
 import AuthContext from '../../../contexts/authContext';
+import GamePortfolioListItem from './game-portfolio-list-item/GamePortfolioListItem';
+import * as gamesAPI from "../../../api/games-api";
 
 const GamePortfolio = () => {
 
     const { username } = useContext(AuthContext);
 
-    const [transactions] = useGetPortfolioGames(username);
+    const [transactions, setTransactions] = useGetPortfolioGames(username);
+
+    const deleteTransactionItem = async (transactionId) => {
+        await gamesAPI.gameSell(transactionId);
+
+        setTransactions((currTransactions) => [...currTransactions].filter((transaction) => transaction._id !== transactionId));
+    }
 
     return (
         // < !--Catalogue -- >
@@ -16,9 +23,10 @@ const GamePortfolio = () => {
 
             {transactions.length > 0
                 ? transactions.map((transactionItem) => (
-                    <GameListItem
+                    <GamePortfolioListItem
                         key={transactionItem._id}
-                        {...transactionItem.game}
+                        {...transactionItem}
+                        deleteTransactionItem={deleteTransactionItem}
                     />
                 ))
                 : <h3 className="no-articles">No games yet</h3>
@@ -27,4 +35,4 @@ const GamePortfolio = () => {
     )
 }
 
-export default GamePortfolio
+export default GamePortfolio;

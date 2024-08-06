@@ -51,4 +51,6 @@ export const gameBuy = async (gameId, _ownerId, _ownerUsername) => {
     return result;
 };
 
+export const gameSell = async (transactionId) => request.del(`http://localhost:3030/data/portfolio/${transactionId}`)
+
 export const gameDelete = async (gameId) => request.del(`${BASE_URL}/${gameId}`);
